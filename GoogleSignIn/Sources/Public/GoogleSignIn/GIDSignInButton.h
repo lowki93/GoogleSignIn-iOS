@@ -18,6 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Button Style and Scheme
+
 /// The layout styles supported by the `GIDSignInButton`.
 ///
 /// The minimum size of the button depends on the language used for text.
@@ -36,6 +38,94 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
   kGIDSignInButtonColorSchemeDark = 0,
   kGIDSignInButtonColorSchemeLight = 1
 };
+
+#pragma mark - Constants
+
+// Standard accessibility identifier.
+extern NSString *const kAccessibilityIdentifier;
+
+// The name of the font for button text.
+extern NSString *const kFontNameRobotoBold;
+
+// Button text font size.
+extern const CGFloat kFontSize;
+
+#pragma mark - Icon Constants
+
+// The name of the image for the Google "G"
+extern NSString *const kGoogleImageName;
+
+// Keys used for NSCoding.
+extern NSString *const kStyleKey;
+extern NSString *const kColorSchemeKey;
+extern NSString *const kButtonState;
+
+#pragma mark - Sizing Constants
+
+// The corner radius of the button
+extern const int kCornerRadius;
+
+// The standard height of the sign in button.
+extern const int kButtonHeight;
+
+// The width of the icon part of the button in points.
+extern const int kIconWidth;
+
+// Left and right text padding.
+extern const int kTextPadding;
+
+// The icon (UIImage)'s frame.
+extern const CGRect kIconFrame;
+
+#pragma mark - Appearance Constants
+
+extern const CGFloat kBorderWidth;
+
+extern const CGFloat kHaloShadowAlpha;
+extern const CGFloat kHaloShadowBlur;
+
+extern const CGFloat kDropShadowAlpha;
+extern const CGFloat kDropShadowBlur;
+extern const CGFloat kDropShadowYOffset;
+
+extern const CGFloat kDisabledIconAlpha;
+
+#pragma mark - Colors
+
+// All colors in hex RGBA format (0xRRGGBBAA)
+
+extern const NSUInteger kColorGoogleBlue;
+extern const NSUInteger kColorGoogleDarkBlue;
+
+extern const NSUInteger kColorWhite;
+extern const NSUInteger kColorLightestGrey;
+extern const NSUInteger kColorLightGrey;
+extern const NSUInteger kColorDisabledGrey;
+extern const NSUInteger kColorDarkestGrey;
+
+extern const NSUInteger kColors[12];
+
+# pragma mark - Button State
+
+// The state of the button:
+typedef NS_ENUM(NSUInteger, GIDSignInButtonState) {
+  kGIDSignInButtonStateNormal = 0,
+  kGIDSignInButtonStateDisabled = 1,
+  kGIDSignInButtonStatePressed = 2,
+};
+extern NSUInteger const kNumGIDSignInButtonStates;
+
+// Used to lookup specific colors from the kColors table:
+typedef NS_ENUM(NSUInteger, GIDSignInButtonStyleColor) {
+  kGIDSignInButtonStyleColorBackground = 0,
+  kGIDSignInButtonStyleColorForeground = 1,
+};
+extern NSUInteger const kNumGIDSignInButtonStyleColors;
+
+// This method just pulls the correct value out of the kColors table and returns it as a UIColor.
+extern UIColor *colorForStyleState(GIDSignInButtonColorScheme style,
+                                   GIDSignInButtonState state,
+                                   GIDSignInButtonStyleColor color);
 
 /// This class provides the "Sign in with Google" button.
 ///

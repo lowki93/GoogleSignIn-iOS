@@ -27,68 +27,68 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Constants
 
 // Standard accessibility identifier.
-static NSString *const kAccessibilityIdentifier = @"GIDSignInButton";
+NSString *const kAccessibilityIdentifier = @"GIDSignInButton";
 
 // The name of the font for button text.
-static NSString *const kFontNameRobotoBold = @"Roboto-Bold";
+NSString *const kFontNameRobotoBold = @"Roboto-Bold";
 
 // Button text font size.
-static const CGFloat kFontSize = 14;
+const CGFloat kFontSize = 14;
 
 #pragma mark - Icon Constants
 
 // The name of the image for the Google "G"
-static NSString *const kGoogleImageName = @"google";
+NSString *const kGoogleImageName = @"google";
 
 // Keys used for NSCoding.
-static NSString *const kStyleKey = @"style";
-static NSString *const kColorSchemeKey = @"color_scheme";
-static NSString *const kButtonState = @"state";
+NSString *const kStyleKey = @"style";
+NSString *const kColorSchemeKey = @"color_scheme";
+NSString *const kButtonState = @"state";
 
 #pragma mark - Sizing Constants
 
 // The corner radius of the button
-static const int kCornerRadius = 2;
+const int kCornerRadius = 2;
 
 // The standard height of the sign in button.
-static const int kButtonHeight = 48;
+const int kButtonHeight = 48;
 
 // The width of the icon part of the button in points.
-static const int kIconWidth = 40;
+const int kIconWidth = 40;
 
 // Left and right text padding.
-static const int kTextPadding = 14;
+const int kTextPadding = 14;
 
 // The icon (UIImage)'s frame.
-static const CGRect kIconFrame = { {9, 10}, {29, 30} };
+const CGRect kIconFrame = { {9, 10}, {29, 30} };
 
 #pragma mark - Appearance Constants
 
-static const CGFloat kBorderWidth = 4;
+const CGFloat kBorderWidth = 4;
 
-static const CGFloat kHaloShadowAlpha = 12.0 / 100.0;
-static const CGFloat kHaloShadowBlur = 2;
+const CGFloat kHaloShadowAlpha = 12.0 / 100.0;
+const CGFloat kHaloShadowBlur = 2;
 
-static const CGFloat kDropShadowAlpha = 24.0 / 100.0;
-static const CGFloat kDropShadowBlur = 2;
-static const CGFloat kDropShadowYOffset = 2;
+const CGFloat kDropShadowAlpha = 24.0 / 100.0;
+const CGFloat kDropShadowBlur = 2;
+const CGFloat kDropShadowYOffset = 2;
 
-static const CGFloat kDisabledIconAlpha = 40.0 / 100.0;
+const CGFloat kDisabledIconAlpha = 40.0 / 100.0;
 
 #pragma mark - Colors
 
 // All colors in hex RGBA format (0xRRGGBBAA)
 
-static const NSUInteger kColorGoogleBlue = 0x4285f4ff;
-static const NSUInteger kColorGoogleDarkBlue = 0x3367d6ff;
+const NSUInteger kColorGoogleBlue = 0x4285f4ff;
+const NSUInteger kColorGoogleDarkBlue = 0x3367d6ff;
 
-static const NSUInteger kColorWhite = 0xffffffff;
-static const NSUInteger kColorLightestGrey = 0x00000014;
-static const NSUInteger kColorLightGrey = 0xeeeeeeff;
-static const NSUInteger kColorDisabledGrey = 0x00000066;
-static const NSUInteger kColorDarkestGrey = 0x00000089;
+const NSUInteger kColorWhite = 0xffffffff;
+const NSUInteger kColorLightestGrey = 0x00000014;
+const NSUInteger kColorLightGrey = 0xeeeeeeff;
+const NSUInteger kColorDisabledGrey = 0x00000066;
+const NSUInteger kColorDarkestGrey = 0x00000089;
 
-static NSUInteger kColors[12] = {
+const NSUInteger kColors[12] = {
   // |Background|, |Foreground|,
 
   kColorGoogleBlue, kColorWhite,              // Dark Google Normal
@@ -101,25 +101,15 @@ static NSUInteger kColors[12] = {
 
 };
 
-// The state of the button:
-typedef NS_ENUM(NSUInteger, GIDSignInButtonState) {
-  kGIDSignInButtonStateNormal = 0,
-  kGIDSignInButtonStateDisabled = 1,
-  kGIDSignInButtonStatePressed = 2,
-};
-static NSUInteger const kNumGIDSignInButtonStates = 3;
+# pragma mark - Button State
 
-// Used to lookup specific colors from the kColors table:
-typedef NS_ENUM(NSUInteger, GIDSignInButtonStyleColor) {
-  kGIDSignInButtonStyleColorBackground = 0,
-  kGIDSignInButtonStyleColorForeground = 1,
-};
-static NSUInteger const kNumGIDSignInButtonStyleColors = 2;
+const NSUInteger kNumGIDSignInButtonStates = 3;
+const NSUInteger kNumGIDSignInButtonStyleColors = 2;
 
 // This method just pulls the correct value out of the kColors table and returns it as a UIColor.
-static UIColor *colorForStyleState(GIDSignInButtonColorScheme style,
-                                        GIDSignInButtonState state,
-                                        GIDSignInButtonStyleColor color) {
+UIColor *colorForStyleState(GIDSignInButtonColorScheme style,
+                            GIDSignInButtonState state,
+                            GIDSignInButtonStyleColor color) {
   NSUInteger stateWidth = kNumGIDSignInButtonStyleColors;
   NSUInteger styleWidth = kNumGIDSignInButtonStates * stateWidth;
   NSUInteger index = (style * styleWidth) + (state * stateWidth) + color;

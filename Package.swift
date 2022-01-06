@@ -17,7 +17,7 @@
 
 import PackageDescription
 
-let googleSignInVersion = "6.1.0"
+let googleSignInVersion = "6.2"
 
 let package = Package(
   name: "GoogleSignIn",
@@ -26,7 +26,10 @@ let package = Package(
   products: [
     .library(
       name: "GoogleSignIn",
-      targets: ["GoogleSignIn"]
+      targets: [
+        "GoogleSignIn",
+        "GoogleSignIn_Swift",
+      ]
     ),
   ],
   dependencies: [
@@ -76,6 +79,16 @@ let package = Package(
         .linkedFramework("LocalAuthentication"),
         .linkedFramework("Security"),
         .linkedFramework("UIKit"),
+      ]
+    ),
+    .target(
+      name: "GoogleSignIn_Swift",
+      dependencies: [
+        "GoogleSignIn"
+      ],
+      path: "GoogleSignIn/Swift_Sources",
+      linkerSettings: [
+        .linkedLibrary("SwiftUI")
       ]
     ),
     .testTarget(
