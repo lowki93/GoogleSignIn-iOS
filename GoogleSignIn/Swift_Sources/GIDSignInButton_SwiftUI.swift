@@ -22,15 +22,33 @@ import GoogleSignIn
 public struct GIDSwiftUISignInButton: View {
   private let title = "Sign In with Google"
   private let action: () -> Void
-  public var style: GIDSignInButtonStyle
-  public var colorScheme: GIDSignInButtonColorScheme
-  private var stateWrapper: GIDSignInButtonStateWrapper
-  public var state: GIDSignInButtonState {
+
+  // MARK: - Button attribute wrappers
+  @ObservedObject private var styleWrapper: GIDSignInButtonStyleWrapper
+  public var style: GIDSignInButtonStyle {
     set {
-      stateWrapper.state = newValue
+      styleWrapper.wrapped = newValue
     }
     get {
-      return stateWrapper.state
+      return styleWrapper.wrapped
+    }
+  }
+  @ObservedObject private var colorSchemeWrapper: GIDSignInButtonColorSchemeWrapper
+  public var colorScheme: GIDSignInButtonColorScheme {
+    set {
+      colorSchemeWrapper.wrapped = newValue
+    }
+    get {
+      return colorSchemeWrapper.wrapped
+    }
+  }
+  @ObservedObject private var stateWrapper: GIDSignInButtonStateWrapper
+  public var state: GIDSignInButtonState {
+    set {
+      stateWrapper.wrapped = newValue
+    }
+    get {
+      return stateWrapper.wrapped
     }
   }
 
@@ -38,9 +56,9 @@ public struct GIDSwiftUISignInButton: View {
        colorScheme: GIDSignInButtonColorScheme,
        state: GIDSignInButtonState,
        action: @escaping () -> Void) {
-    self.style = style
-    self.colorScheme = colorScheme
-    self.stateWrapper = GIDSignInButtonStateWrapper(state: state)
+    self.styleWrapper = GIDSignInButtonStyleWrapper(wrapped: style)
+    self.colorSchemeWrapper = GIDSignInButtonColorSchemeWrapper(wrapped: colorScheme)
+    self.stateWrapper = GIDSignInButtonStateWrapper(wrapped: state)
     self.action = action
   }
 

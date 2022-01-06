@@ -16,15 +16,47 @@
 
 import SwiftUI
 import GoogleSignIn
+import XCTest
+
+/// This protocol provides that API required for wrapping a setting from
+/// `GIDSignInButton` so that its changes can be published.
+protocol GIDSignInButtonWrapper {
+  /// The value to wrap.
+  associatedtype WrappedValue
+  /// The `WrappedValue` property.
+  var wrapped: WrappedValue { get set }
+
+  /// An initializer to create the wrapper with its `WrappedValue`.
+  /// - parameter wrapped: The value to wrap.
+  init(wrapped: WrappedValue)
+}
 
 /// A wrapper for `GIDSignInButtonState` to make it observable in SwiftUI.
 @available(iOS 13.0, *)
-class GIDSignInButtonStateWrapper: ObservableObject {
+class GIDSignInButtonStateWrapper: ObservableObject, GIDSignInButtonWrapper {
   /// The `@Published` property of this wrapper that will trigger view updates
   /// if observed.
-  @Published var state: GIDSignInButtonState
+  @Published var wrapped: GIDSignInButtonState
 
-  init(state: GIDSignInButtonState) {
-    self.state = state
+  required init(wrapped: GIDSignInButtonState) {
+    self.wrapped = wrapped
+  }
+}
+
+@available(iOS 13.0, *)
+class GIDSignInButtonColorSchemeWrapper: ObservableObject, GIDSignInButtonWrapper {
+  @Published var wrapped: GIDSignInButtonColorScheme
+
+  required init(wrapped: GIDSignInButtonColorScheme) {
+    self.wrapped = wrapped
+  }
+}
+
+@available(iOS 13.0, *)
+class GIDSignInButtonStyleWrapper: ObservableObject, GIDSignInButtonWrapper {
+  @Published var wrapped: GIDSignInButtonStyle
+
+  required init(wrapped: GIDSignInButtonStyle) {
+    self.wrapped = wrapped
   }
 }
