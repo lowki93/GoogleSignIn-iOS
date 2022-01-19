@@ -52,10 +52,17 @@ public struct GIDSwiftUISignInButton: View {
     }
   }
 
-  init(style: GIDSignInButtonStyle,
-       colorScheme: GIDSignInButtonColorScheme,
-       state: GIDSignInButtonState,
-       action: @escaping () -> Void) {
+  /// Creates an instance of the Google Sign-In button for use in SwiftUI
+  /// - parameter style: The button style to use.
+  /// - parameter colorScheme: The color scheme for the button.
+  /// - parameter state: The button's state to use.
+  /// - parameter action: A closure to use as the button's action upon press.
+  public init(
+    style: GIDSignInButtonStyle,
+    colorScheme: GIDSignInButtonColorScheme,
+    state: GIDSignInButtonState,
+    action: @escaping () -> Void
+  ) {
     self.styleWrapper = GIDSignInButtonStyleWrapper(wrapped: style)
     self.colorSchemeWrapper = GIDSignInButtonColorSchemeWrapper(wrapped: colorScheme)
     self.stateWrapper = GIDSignInButtonStateWrapper(wrapped: state)
@@ -69,3 +76,45 @@ public struct GIDSwiftUISignInButton: View {
   }
 }
 
+@available(iOS 13.0, *)
+private extension GIDSwiftUISignInButton {
+  func button(for style: GIDSignInButtonStyle) -> Button<Text> {
+    switch style {
+    case .iconOnly:
+      return Button("", action: self.action)
+        .buttonStyle(IconConfiguration()) as! Button<Text>
+    case .standard:
+      return Button("", action: self.action)
+        .buttonStyle(StandardConfiguration()) as! Button<Text>
+    case .wide:
+      return Button("", action: self.action)
+        .buttonStyle(WideConfiguration()) as! Button<Text>
+    default:
+      fatalError("Unknown case provided for `GIDSignInButtonStyle`.")
+    }
+  }
+}
+
+@available(iOS 13.0, *)
+private struct IconConfiguration: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding()
+  }
+}
+
+@available(iOS 13.0, *)
+private struct StandardConfiguration: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding()
+  }
+}
+
+@available(iOS 13.0, *)
+private struct WideConfiguration: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding()
+  }
+}
