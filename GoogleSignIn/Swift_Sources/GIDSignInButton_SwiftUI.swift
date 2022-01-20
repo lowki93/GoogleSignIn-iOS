@@ -70,25 +70,22 @@ public struct GIDSwiftUISignInButton: View {
   }
 
   public var body: some View {
-    Button(title, action: self.action)
-      .cornerRadius(CGFloat(kCornerRadius))
-      .disabled(self.state == GIDSignInButtonState.disabled)
-  }
-}
-
-@available(iOS 13.0, *)
-private extension GIDSwiftUISignInButton {
-  func button(for style: GIDSignInButtonStyle) -> Button<Text> {
     switch style {
     case .iconOnly:
-      return Button("", action: self.action)
-        .buttonStyle(IconConfiguration()) as! Button<Text>
+      Button(title, action: self.action)
+        .cornerRadius(CGFloat(kCornerRadius))
+        .disabled(self.state == GIDSignInButtonState.disabled)
+        .buttonStyle(IconConfiguration())
     case .standard:
-      return Button("", action: self.action)
-        .buttonStyle(StandardConfiguration()) as! Button<Text>
+      Button(title, action: self.action)
+        .cornerRadius(CGFloat(kCornerRadius))
+        .disabled(self.state == GIDSignInButtonState.disabled)
+        .buttonStyle(StandardConfiguration())
     case .wide:
-      return Button("", action: self.action)
-        .buttonStyle(WideConfiguration()) as! Button<Text>
+      Button(title, action: self.action)
+        .cornerRadius(CGFloat(kCornerRadius))
+        .disabled(self.state == GIDSignInButtonState.disabled)
+        .buttonStyle(WideConfiguration())
     default:
       fatalError("Unknown case provided for `GIDSignInButtonStyle`.")
     }
