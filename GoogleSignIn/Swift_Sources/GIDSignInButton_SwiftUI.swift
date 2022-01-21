@@ -21,7 +21,9 @@ import GoogleSignIn
 @available(iOS 13.0, *)
 public struct GIDSwiftUISignInButton: View {
   private let title = "Sign In with Google"
+  private let googleImageName = "google"
   private let action: () -> Void
+  private let icon: UIImageView
 
   // MARK: - Button attribute wrappers
   @ObservedObject private var styleWrapper: GIDSignInButtonStyleWrapper
@@ -58,15 +60,16 @@ public struct GIDSwiftUISignInButton: View {
   /// - parameter state: The button's state to use.
   /// - parameter action: A closure to use as the button's action upon press.
   public init(
-    style: GIDSignInButtonStyle,
-    colorScheme: GIDSignInButtonColorScheme,
-    state: GIDSignInButtonState,
+    style: GIDSignInButtonStyle = .standard,
+    colorScheme: GIDSignInButtonColorScheme = .light,
+    state: GIDSignInButtonState = .normal,
     action: @escaping () -> Void
   ) {
     self.styleWrapper = GIDSignInButtonStyleWrapper(wrapped: style)
     self.colorSchemeWrapper = GIDSignInButtonColorSchemeWrapper(wrapped: colorScheme)
     self.stateWrapper = GIDSignInButtonStateWrapper(wrapped: state)
     self.action = action
+    self.icon = UIImageView()
   }
 
   public var body: some View {
@@ -88,6 +91,23 @@ public struct GIDSwiftUISignInButton: View {
         .buttonStyle(WideConfiguration())
     default:
       fatalError("Unknown case provided for `GIDSignInButtonStyle`.")
+    }
+  }
+
+  private func loadIconImage() {
+    guard let bundle = Bundle.gidFrameworkPath(), let path = bundle.path(
+      forResource: googleImageName,
+      ofType: "png") else {
+        return
+      }
+    let image = UIImage(contentsOfFile: path)
+
+    switch state {
+    case .disabled:
+      // Create a blurred image instead
+      icon.image = image
+    default:
+      icon.image = image
     }
   }
 }
@@ -113,5 +133,22 @@ private struct WideConfiguration: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .padding()
+  }
+}
+
+private extension Bundle {
+  class func gidFrameworkPath() -> Bundle? {
+    if let path = Bundle.main.path(
+      forResource: "GoogleSignIn_GoogleSignIn",
+      ofType: "bundle"
+    ) {
+      return Bundle(path: path)
+    } else if let otherPath = Bundle(for: GIDSignIn.self).path(
+      forResource: "GoogleSignIn_GoogleSignIn",
+      ofType: "bundle") {
+      return Bundle(path: otherPath)
+    } else {
+      return nil
+    }
   }
 }
