@@ -26,7 +26,9 @@ public struct GIDSwiftUISignInButton: View {
   private let icon: UIImageView
 
   // MARK: - Button attribute wrappers
+
   @ObservedObject private var styleWrapper: GIDSignInButtonStyleWrapper
+  /// The `GIDSignInButtonStyle` for the button.
   public var style: GIDSignInButtonStyle {
     set {
       styleWrapper.wrapped = newValue
@@ -35,7 +37,9 @@ public struct GIDSwiftUISignInButton: View {
       return styleWrapper.wrapped
     }
   }
+
   @ObservedObject private var colorSchemeWrapper: GIDSignInButtonColorSchemeWrapper
+  /// The `GIDSignInButtonColorScheme` for the button.
   public var colorScheme: GIDSignInButtonColorScheme {
     set {
       colorSchemeWrapper.wrapped = newValue
@@ -44,7 +48,9 @@ public struct GIDSwiftUISignInButton: View {
       return colorSchemeWrapper.wrapped
     }
   }
+
   @ObservedObject private var stateWrapper: GIDSignInButtonStateWrapper
+  /// The `GIDSignInButtonState` for the button.
   public var state: GIDSignInButtonState {
     set {
       stateWrapper.wrapped = newValue
