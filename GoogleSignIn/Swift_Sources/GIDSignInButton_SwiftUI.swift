@@ -16,6 +16,7 @@
 
 import SwiftUI
 import GoogleSignIn
+import CoreGraphics
 
 /// A Google Sign In button to be used in SwiftUI.
 @available(iOS 13.0, *)
@@ -140,6 +141,65 @@ private struct WideConfiguration: ButtonStyle {
     configuration.label
       .padding()
   }
+}
+
+@available(iOS 13.0, *)
+private extension UIImage {
+  func imageWithBlendMode(_ blendMode: CGBlendMode, color: UIColor) -> UIImage? {
+    var color = color
+    let size: CGSize = self.size
+    let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
+    UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+    let context = UIGraphicsGetCurrentContext()
+    context?.setShouldAntialias(true)
+    context?.interpolationQuality = .high
+    context?.scaleBy(x: 1, y: -1)
+    context?.translateBy(x: 0, y: -rect.size.height)
+    // FIXME: Do not force unwrap the cgImage below.
+    context?.clip(to: rect, mask: self.cgImage!)
+    context?.draw(self.cgImage!.self, in: rect)
+    context?.setBlendMode(blendMode)
+
+    var alpha: CGFloat = 1.0
+    if blendMode == .multiply {
+      var red: CGFloat = 0
+      var green: CGFloat = 0
+      var blue: CGFloat = 0
+      let colorsRetrieved = color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+      if colorsRetrieved {
+        color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+      } else {
+        var grayscale: CGFloat = 0
+        let whiteRetrieved = color.getWhite(&grayscale, alpha: &alpha)
+        if whiteRetrieved {
+          color = UIColor(white: grayscale, alpha: 1.0)
+        }
+      }
+    }
+
+    context?.setFillColor(color.cgColor)
+    context?.fill(rect)
+
+    if blendMode == .multiply && alpha != 1.0 {
+      // Modulate by the alpha.
+      color = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: alpha)
+      context?.setBlendMode(.destinationIn)
+      context?.setFillColor(color.cgColor)
+      context?.fill(rect)
+    }
+
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    if self.capInsets.bottom > 0 || self.capInsets.top > 0 ||
+        self.capInsets.left > 0 || self.capInsets.left > 0 {
+      image?.resizableImage(withCapInsets: self.capInsets)
+    }
+
+    return image
+  }
+
 }
 
 private extension Bundle {
